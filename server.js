@@ -1,51 +1,57 @@
 const express = require('express');
-const multer = require('multer');
 const cors = require('cors');
-const path = require('path');
+const multer = require('multer');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.static(path.join(__dirname)));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+app.use(express.static('public'));
 
-const uploadPath = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath);
-}
+const upload = multer({ dest: 'uploads/' });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName);
-  }
-});
-
-const upload = multer({ storage });
-
-app.post('/api/captacao', upload.fields([
+app.post('/submit', upload.fields([
   { name: 'foto', maxCount: 1 },
   { name: 'assinatura', maxCount: 1 }
 ]), (req, res) => {
-  const dados = req.body;
-  const arquivos = req.files;
-
-  const jsonPath = path.join(__dirname, 'dados_recebidos.json');
   const entrada = {
-    timestamp: new Date(),
-    dados,
-    arquivos
+    nome: req.body.nome,
+    nascimento: req.body.nascimento,
+    tipoDocumento: req.body.tipoDocumento,
+    numeroDocumento: req.body.numeroDocumento,
+    emissao: req.body.emissao,
+    nacionalidade: req.body.nacionalidade,
+    natural: req.body.natural,
+    contactos: req.body.contactos,
+    bairro: req.body.bairro,
+    classeCarta: req.body.classeCarta,
+    observacoes: req.body.observacoes,
+    foto: req.files['foto'] ? req.files['foto'][0].path : null,
+    assinatura: req.files['assinatura'] ? req.files['assinatura'][0].path : null,
+    timestamp: new Date().toISOString()
   };
 
-  fs.appendFileSync(jsonPath, JSON.stringify(entrada, null, 2) + ',\n');
-');
-  res.status(200).json({ mensagem: 'Dados recebidos com sucesso!' });
+  const jsonPath = path.join(__dirname, 'entradas.json');
+  let dados = [];
+
+  if (fs.existsSync(jsonPath)) {
+    const conteudo = fs.readFileSync(jsonPath);
+    if (conteudo.length > 0) {
+      dados = JSON.parse(conteudo);
+    }
+  }
+
+  dados.push(entrada);
+  fs.writeFileSync(jsonPath, JSON.stringify(dados, null, 2));
+
+  res.send('Dados recebidos com sucesso!');
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor iniciado na porta ${PORT}`);
 });
