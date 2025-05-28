@@ -41,7 +41,7 @@ app.post('/api/captacao', upload.fields([
     arquivos
   };
 
-  fs.appendFileSync(jsonPath, JSON.stringify(entrada, null, 2) + ',
+  fs.appendFileSync(jsonPath, JSON.stringify(entrada, null, 2) + ',\n');
 ');
   res.status(200).json({ mensagem: 'Dados recebidos com sucesso!' });
 });
