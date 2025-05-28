@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>CAPTAÇÃO DE DADOS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="barcode.js"></script>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo INATRO" class="logo">
+        <h1 class="header-title">INATRO.EP</h1>
+    </header>
+    <main>
+        <h2>CAPTAÇÃO DE DADOS</h2>
+        <form id="dataForm" enctype="multipart/form-data">
+            <input type="text" name="nome" placeholder="Nome Completo" required><br>
+            <input type="date" name="data_nascimento" required><br>
+            <input type="text" name="tipo_documento" placeholder="Tipo de Documento" required><br>
+            <input type="text" name="numero_documento" placeholder="Número do Documento" required><br>
+            <input type="date" name="data_emissao" required><br>
+            <input type="text" name="nacionalidade" placeholder="Nacionalidade" required><br>
+            <input type="text" name="natural" placeholder="Natural" required><br>
+            <input type="text" name="contactos" placeholder="Contactos" required><br>
+            <input type="text" name="bairro" placeholder="Bairro" required><br>
+            <input type="text" name="classe_carta" placeholder="Classe de Carta" required><br>
+            <label>Foto:</label><input type="file" name="foto" accept="image/*" required><br>
+            <label>Assinatura/Impressão Digital:</label><input type="file" name="assinatura" accept="image/*" required><br>
+            <textarea name="observacao" placeholder="Observações"></textarea><br>
+            <svg id="barcode"></svg><br>
+            <button type="submit">Submeter</button>
+        </form>
+        <div id="mensagem" class="mensagem-sucesso" style="display:none;">Submissão foi feita com êxito</div>
+    </main>
+    <script>
+        document.getElementById("dataForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            document.getElementById("mensagem").innerText = "Processando submissão...";
+            document.getElementById("mensagem").style.display = "block";
+
+            try {
+                const response = await fetch("/submit", {
+                    method: "POST",
+                    body: data
+                });
+
+                if (response.ok) {
+                    setTimeout(() => {
+                        document.getElementById("mensagem").innerText = "Submissão foi feita com êxito";
+                        const nome = data.get("nome");
+                        JsBarcode("#barcode", nome, { format: "CODE128", displayValue: true });
+                    }, 10000);
+                } else {
+                    document.getElementById("mensagem").innerText = "Erro ao submeter.";
+                }
+            } catch (error) {
+                document.getElementById("mensagem").innerText = "Erro: " + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
