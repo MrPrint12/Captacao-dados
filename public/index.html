@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Captação de Dados - INATRO,IP</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 850px;
+      background: white;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      margin: 0;
+      color: #2e7d32;
+      font-size: 26px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #27642b;
+    }
+    .barcode-container {
+      float: right;
+    }
+    .success {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #d4edda;
+      color: #155724;
+      border-radius: 6px;
+      display: none;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #2e7d32;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+      display: none;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>INATRO,IP</h1>
+      <div class="barcode-container">
+        <svg id="barcode"></svg>
+      </div>
+    </div>
+    <h2>CAPTAÇÃO DE DADOS</h2>
+    <form id="dadosForm">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" name="nome" required>
+      </div>
+      <div class="form-group">
+        <label>Data de Nascimento</label>
+        <input type="date" name="data_nascimento" required>
+      </div>
+      <div class="form-group">
+        <label>Sexo</label>
+        <select name="sexo" required>
+          <option value="">-- Selecionar --</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tipo de Documento</label>
+        <select name="tipo_documento" required>
+          <option value="BI">BI</option>
+          <option value="Passaporte">Passaporte</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Número do Documento</label>
+        <input type="text" name="numero_documento" required>
+      </div>
+      <div class="form-group">
+        <label>Data de Emissão</label>
+        <input type="date" name="data_emissao" required>
+      </div>
+      <div class="form-group">
+        <label>Nacionalidade</label>
+        <select name="nacionalidade" required>
+          <option value="">-- Selecionar --</option>
+          <option value="Moçambicana">Moçambicana</option>
+          <option value="Malawi">Malawi</option>
+          <option value="Indonésia">Indonésia</option>
+          <option value="Portugal">Portugal</option>
+          <option value="África do Sul">África do Sul</option>
+          <option value="Nigéria">Nigéria</option>
+          <option value="Quénia">Quénia</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Natural</label>
+        <input type="text" name="natural" required>
+      </div>
+      <div class="form-group">
+        <label>Contacto</label>
+        <input type="text" name="contacto" placeholder="+258..." required>
+      </div>
+      <div class="form-group">
+        <label>Bairro</label>
+        <input type="text" name="bairro" required>
+      </div>
+      <div class="form-group">
+        <label>Classe de Carta</label>
+        <select name="classe_carta" required>
+          <option value="A">A - Motociclo</option>
+          <option value="B">B - Ligeiro</option>
+          <option value="C1">C1 - Pesado Amador</option>
+          <option value="CE">CE - Profissional</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Escola de Condução</label>
+        <select name="escola" required>
+          <option value="">-- Selecionar --</option>
+          <option value="ABC">Escola de Condução ABC</option>
+          <option value="AJM">Escola de Condução AJM</option>
+          <option value="Auto Mubay">Escola de Condução Auto Mubay</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Observações</label>
+        <textarea name="observacoes" rows="4"></textarea>
+      </div>
+      <button type="button" onclick="gerarCodigo()">Salvar</button>
+      <button type="submit">Submeter</button>
+      <div class="spinner" id="spinner"></div>
+      <div class="success" id="sucesso">Submissão foi realizada com êxito.</div>
+    </form>
+    <p style="margin-top: 20px; font-style: italic;">Ao carregar os dados concorda que os mesmos estão corretos.</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.11.0/JsBarcode.all.min.js"></script>
+  <script>
+    function gerarCodigo() {
+      const numero = "A11" + Math.floor(10000000 + Math.random() * 90000000);
+      JsBarcode("#barcode", numero, {
+        format: "CODE128",
+        displayValue: true
+      });
+    }
+
+    document.getElementById("dadosForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const spinner = document.getElementById("spinner");
+      const sucesso = document.getElementById("sucesso");
+
+      spinner.style.display = "block";
+      sucesso.style.display = "none";
+
+      setTimeout(() => {
+        spinner.style.display = "none";
+        sucesso.style.display = "block";
+        document.getElementById("dadosForm").reset();
+        document.getElementById("barcode").innerHTML = "";
+        setTimeout(() => {
+          sucesso.style.display = "none";
+        }, 5000);
+      }, 10000);
+    });
+  </script>
+</body>
+</html>
