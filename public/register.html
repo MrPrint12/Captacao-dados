@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro - INATRO.EP</title>
+  <style>
+    body { font-family: Arial; background: #f0f0f0; padding: 50px; }
+    .register-box { background: #fff; padding: 20px; max-width: 400px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
+    h2 { color: green; }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; }
+    a { text-decoration: none; color: green; }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>Cadastro - INATRO.EP</h2>
+    <form action="/register" method="POST">
+      <input type="text" name="name" placeholder="Nome completo" required />
+      <input type="email" name="email" placeholder="E-mail" required />
+      <input type="password" name="password" placeholder="Senha" required />
+      <button type="submit">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="/">Faça login</a></p>
+  </div>
+</body>
+</html>
