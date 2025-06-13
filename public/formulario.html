@@ -2,203 +2,137 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAPTAÇÃO DE DADOS</title>
+  <title>Captação de Dados</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #e9f5e9;
+      background: #e6f2e6;
       margin: 0;
       padding: 20px;
     }
-
-    .container {
-      max-width: 700px;
-      background: white;
-      margin: auto;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0, 128, 0, 0.2);
-    }
-
     h1 {
       text-align: center;
-      color: #006400;
-      margin-bottom: 30px;
+      color: #006600;
     }
-
-    .codigo-barras {
-      background: #e0f0e0;
-      padding: 10px;
-      font-weight: bold;
-      text-align: center;
-      border-radius: 8px;
-      color: #004d00;
-      margin-bottom: 20px;
-      font-size: 1.2em;
+    form {
+      background: white;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-
     label {
-      margin-top: 15px;
       display: block;
-      color: #333;
-      font-weight: 500;
+      margin-top: 15px;
+      font-weight: 600;
     }
-
     input, select, textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #f9f9f9;
-      font-size: 0.95em;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    .button {
-      background-color: #2e8b57;
-      color: white;
-      padding: 12px 25px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
       font-size: 1em;
-      transition: background-color 0.3s;
     }
-
-    .button:hover {
-      background-color: #246b45;
+    .button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+      font-weight: bold;
     }
-
-    .info {
-      font-size: 0.85em;
-      margin-top: 10px;
-      color: #555;
+    .button:disabled {
+      background: #a5d6a7;
+      cursor: not-allowed;
     }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 20px;
-      }
+    .codigo {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      color: #28a745;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>CAPTAÇÃO DE DADOS</h1>
-    <div class="codigo-barras" id="codigo_barras">A11--------</div>
-
-    <form enctype="multipart/form-data">
-      <input type="hidden" name="codigo_barras" id="codigo_input" />
-
-      <label>Nome Completo</label><input type="text" name="nome" required />
-      <label>Data de Nascimento</label><input type="date" name="data_nascimento" required />
-      <label>Tipo de Documento</label>
-      <select name="tipo_documento" required>
-        <option value="BI">BI</option>
-        <option value="Passaporte">Passaporte</option>
-      </select>
-      <label>Número do Documento</label><input type="text" name="numero_documento" required />
-      <label>Data de Emissão</label><input type="date" name="data_emissao" required />
-      <label>Sexo</label>
-      <select name="Sexo" required>
-        <option value="Masculino">Masculino</option>
-        <option value="Femenino">Femenino</option>
-      </select>
-      <label>Nacionalidade</label><input type="text" name="nacionalidade" required />
-      <label>Natural</label><input type="text" name="natural" required />
-      <label>Contactos</label><input type="text" name="contactos" required />
-      <label>Bairro</label><input type="text" name="bairro" required />
-      <label>Classe de Carta</label>
-      <select name="classe_carta" required>
-        <option value="A">A - Motociclo</option>
-        <option value="B">B - Ligeiro</option>
-        <option value="C1">C1 - Pesado Amador</option>
-        <option value="CE">CE - Profissional</option>
-      </select>
-      <label>Escola de Condução</label>
-      <select name="escola" required>
-        <option value="ABC">Escola de Condução ABC</option>
-        <option value="AJM">Escola de Condução AJM</option>
-        <option value="Auto Mubay">Escola de Condução Auto Mubay</option>
-      </select>
-      <label>Foto</label><input type="file" name="foto" accept="image/*" required />
-      <label>Assinatura / Impressão Digital</label><input type="file" name="assinatura" accept="image/*" required />
-      <label>Observações</label><textarea name="observacoes" rows="3"></textarea>
-
-      <p class="info">
-        Ao carregar os dados concorda que os mesmos estão corretos. O código será validado após a confirmação via mensagem dentro de 48h. Favor de não compartilhar com terceiros.
-      </p>
-
-      <button type="button" class="button" onclick="gerarCodigoBarras()">Gerar Código</button>
-      <button type="submit" class="button" id="submeter" disabled>Submeter</button>
-    </form>
-  </div>
+  <h1>Formulário de Captação de Dados</h1>
+  <div class="codigo" id="codigo_barras">A11--------</div>
+  <form id="formulario">
+    <input type="hidden" name="codigo_barras" id="codigo_input" />
+    <label>Nome Completo</label><input type="text" name="nomeCompleto" required />
+    <label>Data de Nascimento</label><input type="date" name="data_nascimento" required />
+    <label>Tipo de Documento</label>
+    <select name="tipo_documento" required>
+      <option value="BI">BI</option>
+      <option value="Passaporte">Passaporte</option>
+    </select>
+    <label>Número do Documento</label><input type="text" name="numero_documento" required />
+    <label>Data de Emissão</label><input type="date" name="data_emissao" required />
+    <label>Sexo</label>
+    <select name="Sexo" required>
+      <option value="Masculino">Masculino</option>
+      <option value="Femenino">Femenino</option>
+    </select>
+    <label>Nacionalidade</label><input type="text" name="nacionalidade" required />
+    <label>Natural</label><input type="text" name="natural" required />
+    <label>Contactos</label><input type="text" name="contactos" required />
+    <label>Bairro</label><input type="text" name="bairro" required />
+    <label>Classe de Carta</label>
+    <select name="classe_carta" required>
+      <option value="A">A - Motociclo</option>
+      <option value="B">B - Ligeiro</option>
+      <option value="C1">C1 - Pesado Amador</option>
+      <option value="CE">CE - Profissional</option>
+    </select>
+    <label>Escola de Condução</label>
+    <select name="escola" required>
+      <option value="ABC">Escola de Condução ABC</option>
+      <option value="AJM">Escola de Condução AJM</option>
+      <option value="Auto Mubay">Escola de Condução Auto Mubay</option>
+    </select>
+    <label>Foto</label><input type="file" name="foto" accept="image/*" required />
+    <label>Assinatura / Impressão Digital</label><input type="file" name="assinatura" accept="image/*" required />
+    <label>Observações</label><textarea name="observacoes"></textarea>
+    <p style="margin-top: 10px; font-size: 0.9em; color: #555;">
+      Ao carregar os dados concorda que os mesmos estão corretos. O código será validado após confirmação via mensagem dentro de 48h. Favor de não compartilhar com terceiros.
+    </p>
+    <button type="button" class="button" onclick="gerarCodigoBarras()">Gerar Código</button>
+    <button type="submit" class="button" id="submeter" disabled>Submeter</button>
+  </form>
 
   <script>
     function gerarCodigoBarras() {
-      const randomNum = Math.floor(10000000 + Math.random() * 90000000);
-      const codigo = "A11" + randomNum;
+      const codigo = "A11" + Math.floor(10000000 + Math.random() * 90000000);
       document.getElementById("codigo_barras").innerText = codigo;
       document.getElementById("codigo_input").value = codigo;
       document.getElementById("submeter").disabled = false;
     }
 
-    document.querySelector("form").addEventListener("submit", function (e) {
+    document.getElementById("formulario").addEventListener("submit", async function (e) {
       e.preventDefault();
-
       const form = e.target;
       const formData = new FormData(form);
 
-      document.getElementById("submeter").textContent = "A processar...";
-      document.getElementById("submeter").disabled = true;
-
-      fetch("/submeter", {
+      const res = await fetch("/submeter", {
         method: "POST",
         body: formData
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.sucesso && data.link) {
-          alert("✅ Dados submetidos com sucesso!");
-
-          const link = document.createElement("a");
-          link.href = data.link;
-          link.download = "";
-          link.textContent = "📄 Baixar PDF Gerado";
-          link.style.display = "inline-block";
-          link.style.marginTop = "20px";
-          link.style.background = "#2e8b57";
-          link.style.color = "white";
-          link.style.padding = "10px 15px";
-          link.style.borderRadius = "5px";
-          link.style.textDecoration = "none";
-
-          document.querySelector(".container").appendChild(link);
-        } else {
-          alert("Erro ao submeter os dados.");
-        }
-      })
-      .catch(err => {
-        console.error("Erro:", err);
-        alert("Erro na comunicação com o servidor.");
-      })
-      .finally(() => {
-        document.getElementById("submeter").textContent = "Submeter";
-        document.getElementById("submeter").disabled = false;
       });
+
+      const resultado = await res.json();
+      if (resultado.sucesso && resultado.link) {
+        window.open(resultado.link, '_blank');
+        alert("Submetido com sucesso! PDF será baixado em seguida.");
+        form.reset();
+        document.getElementById("codigo_barras").innerText = "A11--------";
+        document.getElementById("submeter").disabled = true;
+      } else {
+        alert("Erro ao submeter os dados.");
+      }
     });
   </script>
 </body>
-  </html>
-  
+</html>
