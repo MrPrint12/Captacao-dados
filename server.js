@@ -49,7 +49,7 @@ app.post('/submeter', upload.fields([
   }
 
   doc.moveDown();
-  doc.fontSize(12).text('República de Moçambique', { align: 'center' });
+  doc.fontSize(10).text('República de Moçambique', { align: 'center' });
   doc.fontSize(14).text('INATRO - Captação de Dados', { align: 'center' });
   doc.moveDown();
 
