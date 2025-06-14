@@ -6,128 +6,99 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #eefaf0;
-      padding: 30px;
-    }
-    h1 {
-      text-align: center;
-      color: #0a7500;
+      background-color: #f0f8f0;
+      padding: 20px;
     }
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 700px;
-      margin: 0 auto 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header img {
+      height: 80px;
+    }
+    .header h1 {
+      margin: 10px 0 5px;
+      color: #006400;
     }
     .codigo-barras {
       font-weight: bold;
-      color: #0a7500;
+      color: #006400;
       font-size: 1.2em;
+      text-align: center;
+      margin-top: 10px;
     }
     form {
-      max-width: 700px;
+      max-width: 600px;
       margin: auto;
-      background-color: #ffffff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label {
       display: block;
-      margin-top: 12px;
-      font-weight: bold;
+      margin-top: 10px;
     }
     input, select, textarea {
       width: 100%;
       padding: 8px;
-      margin-top: 6px;
+      margin-top: 5px;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
+      border-radius: 4px;
     }
     .button {
-      background-color: #0a7500;
+      background-color: green;
       color: white;
       padding: 10px 20px;
-      margin-top: 20px;
+      margin-top: 15px;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
-      width: 48%;
     }
-    .button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    .button-container {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .footer-msg {
+    #loading {
+      display: none;
+      justify-content: center;
       margin-top: 20px;
-      font-size: 0.9em;
-      color: #555;
-      text-align: center;
+      font-weight: bold;
+      color: green;
     }
   </style>
-  <script>
-    function gerarCodigoBarras() {
-      const randomNum = Math.floor(10000000 + Math.random() * 90000000);
-      const codigo = "A11" + randomNum;
-      document.getElementById("codigo_barras").innerText = codigo;
-      document.getElementById("codigo_input").value = codigo;
-      document.getElementById("submeter").disabled = false;
-    }
-  </script>
 </head>
 <body>
 
-  <h1>CAPTAÇÃO DE DADOS</h1>
-
   <div class="header">
-    <div class="codigo-barras" id="codigo_barras">A11--------</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Emblem_of_Mozambique.svg/1200px-Emblem_of_Mozambique.svg.png" alt="Logo">
+    <h1>República de Moçambique</h1>
+    <h2>INATRO - Captação de Dados</h2>
   </div>
 
-  <form action="/submeter" method="post" enctype="multipart/form-data">
+  <div class="codigo-barras" id="codigo_barras">A11--------</div>
+
+  <form id="formulario" enctype="multipart/form-data">
     <input type="hidden" name="codigo_barras" id="codigo_input" />
 
-    <label>Nome Completo</label>
-    <input type="text" name="nome" required />
-
-    <label>Data de Nascimento</label>
-    <input type="date" name="data_nascimento" required />
-
+    <label>Nome Completo</label><input type="text" name="nomeCompleto" required />
+    <label>Data de Nascimento</label><input type="date" name="data_nascimento" required />
+    
     <label>Tipo de Documento</label>
     <select name="tipo_documento" required>
       <option value="BI">BI</option>
       <option value="Passaporte">Passaporte</option>
     </select>
 
-    <label>Número do Documento</label>
-    <input type="text" name="numero_documento" required />
-
-    <label>Data de Emissão</label>
-    <input type="date" name="data_emissao" required />
+    <label>Número do Documento</label><input type="text" name="numero_documento" required />
+    <label>Data de Emissão</label><input type="date" name="data_emissao" required />
 
     <label>Sexo</label>
-    <select name="sexo" required>
+    <select name="Sexo" required>
       <option value="Masculino">Masculino</option>
       <option value="Feminino">Feminino</option>
     </select>
 
-    <label>Nacionalidade</label>
-    <input type="text" name="nacionalidade" required />
-
-    <label>Natural</label>
-    <input type="text" name="natural" required />
-
-    <label>Contactos</label>
-    <input type="text" name="contactos" required />
-
-    <label>Bairro</label>
-    <input type="text" name="bairro" required />
+    <label>Nacionalidade</label><input type="text" name="nacionalidade" required />
+    <label>Natural</label><input type="text" name="natural" required />
+    <label>Contactos</label><input type="text" name="contactos" required />
+    <label>Bairro</label><input type="text" name="bairro" required />
 
     <label>Classe de Carta</label>
     <select name="classe_carta" required>
@@ -144,25 +115,58 @@
       <option value="Auto Mubay">Escola de Condução Auto Mubay</option>
     </select>
 
-    <label>Foto</label>
-    <input type="file" name="foto" accept="image/*" required />
+    <label>Foto</label><input type="file" name="foto" accept="image/*" required />
+    <label>Assinatura / Impressão Digital</label><input type="file" name="assinatura" accept="image/*" required />
 
-    <label>Assinatura / Impressão Digital</label>
-    <input type="file" name="assinatura" accept="image/*" required />
+    <label>Observações</label><textarea name="observacoes"></textarea>
 
-    <label>Observações</label>
-    <textarea name="observacoes" rows="3"></textarea>
+    <p style="font-size: 0.9em; color: #555; margin-top: 10px;">
+      Ao carregar os dados concorda que os mesmos estão corretos. O código será validado após a confirmação via mensagem dentro de 48h. Favor de não compartilhar com terceiros.
+    </p>
 
-    <div class="footer-msg">
-      Ao carregar os dados concorda que os mesmos estão corretos.<br>
-      O código será validado após a confirmação via mensagem dentro de 48h.<br>
-      Favor de não compartilhar com terceiros.
-    </div>
-
-    <div class="button-container">
-      <button type="button" class="button" onclick="gerarCodigoBarras()">Gerar Código</button>
-      <button type="submit" class="button" id="submeter" disabled>Submeter</button>
-    </div>
+    <button type="button" class="button" onclick="gerarCodigoBarras()">Salvar Código</button>
+    <button type="button" class="button" onclick="enviarFormulario()" id="submeter" disabled>Submeter</button>
   </form>
+
+  <div id="loading">Processando, aguarde...</div>
+
+  <script>
+    function gerarCodigoBarras() {
+      const randomNum = Math.floor(10000000 + Math.random() * 90000000);
+      const codigo = "A11" + randomNum;
+      document.getElementById("codigo_barras").innerText = codigo;
+      document.getElementById("codigo_input").value = codigo;
+      document.getElementById("submeter").disabled = false;
+    }
+
+    async function enviarFormulario() {
+      const form = document.getElementById('formulario');
+      const formData = new FormData(form);
+
+      document.getElementById('loading').style.display = 'flex';
+      const formElements = document.querySelectorAll('input, select, textarea, button');
+      formElements.forEach(el => el.disabled = true);
+
+      try {
+        const response = await fetch('/submeter', {
+          method: 'POST',
+          body: formData
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.sucesso && resultado.pdf) {
+          window.location.href = resultado.pdf;
+        } else {
+          alert('Erro ao gerar PDF. Tente novamente.');
+          location.reload();
+        }
+      } catch (e) {
+        alert('Erro de rede ou servidor. Verifique a conexão.');
+        location.reload();
+      }
+    }
+  </script>
+
 </body>
 </html>
