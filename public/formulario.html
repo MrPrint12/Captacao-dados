@@ -2,171 +2,183 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8" />
-  <title>CAPTAÇÃO DE DADOS</title>
+  <title>Captação de Dados - INATRO</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f8f0;
-      padding: 20px;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('motorista.jpg') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(3px);
     }
-    .header {
+
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background-color: rgba(255, 255, 255, 0.96);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
       text-align: center;
+      color: #0a4d0a;
+      margin-bottom: 10px;
+    }
+
+    .codigo-barras {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #027502;
       margin-bottom: 20px;
     }
-    .header img {
-      height: 80px;
+
+    label {
+      font-weight: 600;
+      margin-top: 12px;
+      display: block;
     }
-    .header h1 {
-      margin: 10px 0 5px;
-      color: #006400;
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
     }
-    .codigo-barras {
-      font-weight: bold;
-      color: #006400;
-      font-size: 1.2em;
+
+    .button {
+      background-color: #006400;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 20px;
+      cursor: pointer;
+      width: 48%;
+    }
+
+    .button:disabled {
+      background-color: #aaa;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-size: 0.9em;
+      margin-top: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    .spinner {
+      display: none;
       text-align: center;
       margin-top: 10px;
     }
-    form {
-      max-width: 600px;
-      margin: auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .button {
-      background-color: green;
-      color: white;
-      padding: 10px 20px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #loading {
-      display: none;
-      justify-content: center;
-      margin-top: 20px;
-      font-weight: bold;
-      color: green;
-    }
   </style>
-</head>
-<body>
-
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Emblem_of_Mozambique.svg/1200px-Emblem_of_Mozambique.svg.png" alt="Logo">
-    <h1>República de Moçambique</h1>
-    <h2>INATRO - Captação de Dados</h2>
-  </div>
-
-  <div class="codigo-barras" id="codigo_barras">A11--------</div>
-
-  <form id="formulario" enctype="multipart/form-data">
-    <input type="hidden" name="codigo_barras" id="codigo_input" />
-
-    <label>Nome Completo</label><input type="text" name="nomeCompleto" required />
-    <label>Data de Nascimento</label><input type="date" name="data_nascimento" required />
-    
-    <label>Tipo de Documento</label>
-    <select name="tipo_documento" required>
-      <option value="BI">BI</option>
-      <option value="Passaporte">Passaporte</option>
-    </select>
-
-    <label>Número do Documento</label><input type="text" name="numero_documento" required />
-    <label>Data de Emissão</label><input type="date" name="data_emissao" required />
-
-    <label>Sexo</label>
-    <select name="Sexo" required>
-      <option value="Masculino">Masculino</option>
-      <option value="Feminino">Feminino</option>
-    </select>
-
-    <label>Nacionalidade</label><input type="text" name="nacionalidade" required />
-    <label>Natural</label><input type="text" name="natural" required />
-    <label>Contactos</label><input type="text" name="contactos" required />
-    <label>Bairro</label><input type="text" name="bairro" required />
-
-    <label>Classe de Carta</label>
-    <select name="classe_carta" required>
-      <option value="A">A - Motociclo</option>
-      <option value="B">B - Ligeiro</option>
-      <option value="C1">C1 - Pesado Amador</option>
-      <option value="CE">CE - Profissional</option>
-    </select>
-
-    <label>Escola de Condução</label>
-    <select name="escola" required>
-      <option value="ABC">Escola de Condução ABC</option>
-      <option value="AJM">Escola de Condução AJM</option>
-      <option value="Auto Mubay">Escola de Condução Auto Mubay</option>
-    </select>
-
-    <label>Foto</label><input type="file" name="foto" accept="image/*" required />
-    <label>Assinatura / Impressão Digital</label><input type="file" name="assinatura" accept="image/*" required />
-
-    <label>Observações</label><textarea name="observacoes"></textarea>
-
-    <p style="font-size: 0.9em; color: #555; margin-top: 10px;">
-      Ao carregar os dados concorda que os mesmos estão corretos. O código será validado após a confirmação via mensagem dentro de 48h. Favor de não compartilhar com terceiros.
-    </p>
-
-    <button type="button" class="button" onclick="gerarCodigoBarras()">Salvar Código</button>
-    <button type="button" class="button" onclick="enviarFormulario()" id="submeter" disabled>Submeter</button>
-  </form>
-
-  <div id="loading">Processando, aguarde...</div>
-
   <script>
     function gerarCodigoBarras() {
-      const randomNum = Math.floor(10000000 + Math.random() * 90000000);
-      const codigo = "A11" + randomNum;
-      document.getElementById("codigo_barras").innerText = codigo;
-      document.getElementById("codigo_input").value = codigo;
-      document.getElementById("submeter").disabled = false;
+      const codigo = 'A11' + Math.floor(10000000 + Math.random() * 90000000);
+      document.getElementById('codigo_barras').innerText = codigo;
+      document.getElementById('codigo_input').value = codigo;
+      document.getElementById('submeter').disabled = false;
     }
 
-    async function enviarFormulario() {
-      const form = document.getElementById('formulario');
-      const formData = new FormData(form);
-
-      document.getElementById('loading').style.display = 'flex';
-      const formElements = document.querySelectorAll('input, select, textarea, button');
-      formElements.forEach(el => el.disabled = true);
-
-      try {
-        const response = await fetch('/submeter', {
-          method: 'POST',
-          body: formData
-        });
-
-        const resultado = await response.json();
-
-        if (resultado.sucesso && resultado.pdf) {
-          window.location.href = resultado.pdf;
-        } else {
-          alert('Erro ao gerar PDF. Tente novamente.');
-          location.reload();
-        }
-      } catch (e) {
-        alert('Erro de rede ou servidor. Verifique a conexão.');
-        location.reload();
-      }
+    function aoSubmeter() {
+      document.getElementById('spinner').style.display = 'block';
     }
   </script>
+</head>
+<body>
+  <div class="container">
+    <h1>República de Moçambique</h1>
+    <h2>INATRO - Captação de Dados</h2>
 
+    <div class="codigo-barras" id="codigo_barras">A11--------</div>
+
+    <form action="/submeter" method="post" enctype="multipart/form-data" onsubmit="aoSubmeter()">
+      <input type="hidden" name="codigo_barras" id="codigo_input" />
+
+      <label>Nome Completo</label>
+      <input type="text" name="nomeCompleto" required />
+
+      <label>Data de Nascimento</label>
+      <input type="date" name="data_nascimento" required />
+
+      <label>Tipo de Documento</label>
+      <select name="tipo_documento" required>
+        <option value="BI">BI</option>
+        <option value="Passaporte">Passaporte</option>
+      </select>
+
+      <label>Número do Documento</label>
+      <input type="text" name="numero_documento" required />
+
+      <label>Data de Emissão</label>
+      <input type="date" name="data_emissao" required />
+
+      <label>Sexo</label>
+      <select name="sexo" required>
+        <option value="Masculino">Masculino</option>
+        <option value="Feminino">Feminino</option>
+      </select>
+
+      <label>Nacionalidade</label>
+      <input type="text" name="nacionalidade" required />
+
+      <label>Natural de</label>
+      <input type="text" name="natural" required />
+
+      <label>Contactos</label>
+      <input type="text" name="contactos" required />
+
+      <label>Bairro</label>
+      <input type="text" name="bairro" required />
+
+      <label>Classe de Carta</label>
+      <select name="classe_carta" required>
+        <option value="A">A - Motociclo</option>
+        <option value="B">B - Ligeiro</option>
+        <option value="C1">C1 - Pesado Amador</option>
+        <option value="CE">CE - Profissional</option>
+      </select>
+
+      <label>Escola de Condução</label>
+      <select name="escola" required>
+        <option value="ABC">Escola de Condução ABC</option>
+        <option value="AJM">Escola de Condução AJM</option>
+        <option value="Auto Mubay">Auto Mubay</option>
+      </select>
+
+      <label>Foto</label>
+      <input type="file" name="foto" accept="image/*" required />
+
+      <label>Assinatura / Impressão Digital</label>
+      <input type="file" name="assinatura" accept="image/*" required />
+
+      <label>Observações</label>
+      <textarea name="observacoes" rows="3"></textarea>
+
+      <div class="button-group">
+        <button type="button" class="button" onclick="gerarCodigoBarras()">Gerar Código</button>
+        <button type="submit" class="button" id="submeter" disabled>Submeter</button>
+      </div>
+
+      <div class="spinner" id="spinner">A processar dados... Aguarde...</div>
+
+      <p class="footer-text">
+        Ao carregar os dados, confirma que os mesmos são verdadeiros.<br>
+        O código será validado após a confirmação por mensagem em até 48h.<br>
+        Não partilhe com terceiros.
+      </p>
+    </form>
+  </div>
 </body>
 </html>
